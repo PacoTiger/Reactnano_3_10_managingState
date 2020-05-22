@@ -1,16 +1,29 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-
-const value1 = Math.floor(Math.random() * 100);
-const value2 = Math.floor(Math.random() * 100);
-const value3 = Math.floor(Math.random() * 100);
-const proposedAnswer = Math.floor(Math.random() * 3) + value1 + value2 + value3;
-const numQuestions = 0;
-const numCorrect = 0;
+import Equation from './Equation.js';
 
 class App extends Component {
+  state = {  
+    numCorrect: 0,
+	numQuestion: 0,
+  } 
+
+  success = () => {
+    this.setState((prevState) => ({
+      numCorrect: prevState.numCorrect + 1,
+      numQuestion: prevState.numQuestion + 1,
+    }))
+  }
+
+  mistake = () => {
+    this.setState((prevState) => ({
+      numQuestion: prevState.numQuestion + 1,
+    }))
+  } 
+
   render() {
+    console.log("App iniciando... this.state ", this.state, " this.props ", this.props)
     return (
       <div className="App">
         <header className="App-header">
@@ -19,13 +32,9 @@ class App extends Component {
         </header>
         <div className="game">
           <h2>Mental Math</h2>
-          <div className="equation">
-            <p className="text">{`${value1} + ${value2} + ${value3} = ${proposedAnswer}`}</p>
-          </div>
-          <button>True</button>
-          <button>False</button>
+            <Equation success={this.success} mistake={this.mistake}/>
           <p className="text">
-            Your Score: {numCorrect}/{numQuestions}
+            Your Score: {this.state.numCorrect}/{this.state.numQuestion}
           </p>
         </div>
       </div>
